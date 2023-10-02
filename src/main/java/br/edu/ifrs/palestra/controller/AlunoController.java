@@ -15,41 +15,36 @@ import jakarta.ws.rs.PathParam;
 
 @Path("/aluno")
 public class AlunoController {
-    
+
     @Inject
     private AlunoService alunoService;
 
     @GET
     public List<Aluno> getAll() {
-        List<Aluno> alunos = alunoService.getAll();
-        return alunos;
+        return alunoService.getAll();
     }
 
     @GET
     @Path("/{id}")
     public Aluno getById(@PathParam("id") int id) {
-        Aluno aluno = alunoService.getById(id);
-        return aluno;
+        return alunoService.getById(id);
     }
 
     @POST
     @Transactional
     public Aluno save(AlunoDTO alunoDto) {
-        Aluno aluno = alunoService.save(alunoDto);
-        return aluno;
+        return alunoService.save(alunoDto);
     }
 
     @POST
     @Path("/{id}")
     @Transactional
     public Aluno update(@PathParam("id") int id, AlunoDTO alunoDto) {
-        Aluno aluno = alunoService.update(id, alunoDto);
-        return aluno;
+        return alunoService.update(id, alunoDto);
     }
-    
+
     @DELETE
     public Boolean delete(@PathParam("id") int id) {
-        boolean deletado = alunoService.delete(id);        
-        return deletado;
+        return alunoService.delete(id);
     }
 }

@@ -21,35 +21,30 @@ public class DisciplinaController {
     
     @GET
     public List<Disciplina> getAll() {
-        List<Disciplina> disciplinas = disciplinaService.getAll();
-        return disciplinas;
+        return disciplinaService.getAll();
     }
 
     @GET
     @Path("/{id}")
     public Disciplina getById(@PathParam("id") int id) {
-        Disciplina disciplina = disciplinaService.getById(id);
-        return disciplina;
+        return disciplinaService.getById(id);
     }
 
     @POST
     public Disciplina save(DisciplinaDTO disciplinaDto) {
-        Disciplina disciplina = disciplinaService.save(disciplinaDto);
-        return disciplina;
+        return disciplinaService.save(disciplinaDto);
     }
 
     @PUT
     @Path("/{id}")
     public Disciplina update(@PathParam("id") int id, DisciplinaDTO disciplinaDto) {
-        Disciplina disciplina = disciplinaService.update(id, disciplinaDto);
-        return disciplina;
+        return disciplinaService.update(id, disciplinaDto);
     }
     
     @DELETE
     @Path("/{id}")
     public Boolean delete(@PathParam("id") int id) {
-        boolean deletado = disciplinaService.delete(id);        
-        return deletado;
+        return disciplinaService.delete(id);
     }
     
 }

@@ -19,52 +19,45 @@ public class TurmaController {
 
     @Inject
     private TurmaService turmaService;
-    
+
     @GET
     public List<Turma> getAll() {
-        List<Turma> turmas = turmaService.getAll();
-        return turmas;
+        return turmaService.getAll();
     }
 
     @GET
     @Path("/{id}")
     public Turma getById(@PathParam("id") int id) {
-        Turma turma = turmaService.getById(id);
-        return turma;
+        return turmaService.getById(id);
     }
 
     @POST
     public Turma save(TurmaDTO turmaDto) {
-        Turma turma = turmaService.save(turmaDto);
-        return turma;
+        return turmaService.save(turmaDto);
     }
 
     @PUT
     @Path("/{id}")
     public Turma update(@PathParam("id") int id, TurmaDTO turmaDto) {
-        Turma turma = turmaService.update(id, turmaDto);
-        return turma;
+        return turmaService.update(id, turmaDto);
     }
-    
+
     @DELETE
     @Path("/{id}")
     public Boolean delete(@PathParam("id") int id) {
-        boolean deletado = turmaService.delete(id);        
-        return deletado;
+        return turmaService.delete(id);
     }
-    
+
     @POST
     @Path("/{turma_id}/matricular")
     public Turma matricular(@PathParam("turma_id") int turma_id, @QueryParam("id") int aluno_id) {
-        Turma turma = turmaService.matricular(turma_id, aluno_id);
-        return turma;
+        return turmaService.matricular(turma_id, aluno_id);
     }
 
     @DELETE
     @Path("/{turma_id}/cancelar-matricula")
     public Turma cancelarMatricula(@PathParam("turma_id") int turma_id, @QueryParam("id") int aluno_id) {
-        Turma turma = turmaService.cancelarMatricula(turma_id, aluno_id);
-        return turma;
+        return turmaService.cancelarMatricula(turma_id, aluno_id);
     }
-    
+
 }
