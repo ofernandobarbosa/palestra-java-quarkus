@@ -27,7 +27,7 @@ public class TurmaController {
 
     @GET
     @Path("/{id}")
-    public Turma getById(@PathParam("id") int id) {
+    public Turma getById(@PathParam("id") Long id) {
         return turmaService.getById(id);
     }
 
@@ -38,25 +38,25 @@ public class TurmaController {
 
     @PUT
     @Path("/{id}")
-    public Turma update(@PathParam("id") int id, TurmaDTO turmaDto) {
+    public Turma update(@PathParam("id") Long id, TurmaDTO turmaDto) {
         return turmaService.update(id, turmaDto);
     }
 
     @DELETE
     @Path("/{id}")
-    public Boolean delete(@PathParam("id") int id) {
+    public Boolean delete(@PathParam("id") Long id) {
         return turmaService.delete(id);
     }
 
     @POST
     @Path("/{turma_id}/matricular")
-    public Turma matricular(@PathParam("turma_id") int turma_id, @QueryParam("id") int aluno_id) {
+    public Turma matricular(@PathParam("turma_id") Long turma_id, @QueryParam("id") Long aluno_id) {
         return turmaService.matricular(turma_id, aluno_id);
     }
 
     @DELETE
     @Path("/{turma_id}/cancelar-matricula")
-    public Turma cancelarMatricula(@PathParam("turma_id") int turma_id, @QueryParam("id") int aluno_id) {
+    public Turma cancelarMatricula(@PathParam("turma_id") Long turma_id, @QueryParam("id") Long aluno_id) {
         return turmaService.cancelarMatricula(turma_id, aluno_id);
     }
 

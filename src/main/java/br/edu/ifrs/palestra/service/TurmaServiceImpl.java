@@ -7,6 +7,7 @@ import br.edu.ifrs.palestra.model.Aluno;
 import br.edu.ifrs.palestra.model.Disciplina;
 import br.edu.ifrs.palestra.model.Turma;
 import br.edu.ifrs.palestra.repository.TurmaRepository;
+import br.edu.ifrs.palestra.service.exceptions.NotFoundException;
 import br.edu.ifrs.palestra.service.interfaces.AlunoService;
 import br.edu.ifrs.palestra.service.interfaces.DisciplinaService;
 import br.edu.ifrs.palestra.service.interfaces.TurmaService;
@@ -31,66 +32,68 @@ public class TurmaServiceImpl implements TurmaService {
     }
 
     @Override
-    public Turma getById(int id) {
+    public Turma getById(Long id) {
         return turmaRepository.findByIdOptional((long) id)
-                .orElseThrow(() -> new ServiceException("Turma não encontrada."));
+                .orElseThrow(() -> new NotFoundException("Turma não encontrada.", id));
     }
 
     @Override
     public Turma save(TurmaDTO turmaDto) {
+
         Turma turma = new Turma();
         Disciplina disciplina = disciplinaService.getById(turmaDto.disciplina_id());
 
-        turma.setNome(turmaDto.nome());
-        turma.setDisciplina(disciplina);
+        turma.nome = turmaDto.nome();
+        turma.disciplina = disciplina;
 
         return turmaRepository.saveAndReturn(turma);
+
     }
 
     @Override
-    public Turma update(int id, TurmaDTO turmaDto) {
+    public Turma update(Long id, TurmaDTO turmaDto) {
         Turma turma = getById(id);
         Disciplina disciplina = disciplinaService.getById(turmaDto.disciplina_id());
 
-        turma.setNome(turmaDto.nome());
-        turma.setDisciplina(disciplina);
+        turma.nome = turmaDto.nome();
+        turma.disciplina = disciplina;
 
         return turmaRepository.saveAndReturn(turma);
     }
 
     @Override
-    public boolean delete(int id) {
-        if(turmaRepository.findByIdOptional((long) id).isPresent()){
-            return turmaRepository.deleteById((long)id);
+    public boolean delete(Long id) {
+        if (turmaRepository.findByIdOptional((long) id).isPresent()) {
+            return turmaRepository.deleteById((long) id);
         }
         return false;
     }
 
-    public Turma matricular(int turma_id, int aluno_id) {
+    public Turma matricular(Long turma_id, Long aluno_id) {
         Aluno aluno = alunoService.getById(aluno_id);
         Turma turma = getById(turma_id);
 
-        if (turma.getAlunos().contains(aluno)) {
+        if (turma.alunos.contains(aluno)) {
             throw new IllegalArgumentException("Aluno já está inserido na turma.");
         }
 
-        turma.getAlunos().add(aluno);
-        aluno.getTurmas().add(turma);
+        turma.alunos.add(aluno);
+        aluno.turmas.add(turma);
         turmaRepository.saveAndReturn(turma);
         alunoService.save(aluno);
         return turma;
     }
 
-    public Turma cancelarMatricula(int turma_id, int aluno_id) {
+    public Turma cancelarMatricula(Long turma_id, Long aluno_id) {
         Aluno aluno = alunoService.getById(aluno_id);
         Turma turma = getById(turma_id);
 
-        if (!turma.getAlunos().contains(aluno)) {
+        if (!turma.alunos.contains(aluno)) {
             throw new IllegalArgumentException("Aluno não pertenca a turma.");
         }
 
-        turma.getAlunos().remove(aluno);
-        aluno.getTurmas().remove(turma);
+        turma.alunos.remove(aluno);
+        aluno.turmas.remove(turma);
         turmaRepository.saveAndReturn(turma);
         alunoService.save(aluno);
         return turma;

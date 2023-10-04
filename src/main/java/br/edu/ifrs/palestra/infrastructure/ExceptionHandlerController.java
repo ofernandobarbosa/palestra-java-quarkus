@@ -1,39 +1,34 @@
 package br.edu.ifrs.palestra.infrastructure;
 
+import jakarta.ws.rs.core.Response;
+
+import org.jboss.resteasy.reactive.RestResponse;
+import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
+
 import br.edu.ifrs.palestra.dto.ExceptionDTO;
-import br.edu.ifrs.palestra.service.ServiceException;
+import br.edu.ifrs.palestra.service.exceptions.DatabaseException;
+import br.edu.ifrs.palestra.service.exceptions.NotFoundException;
 
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.ConstraintViolationException;
-
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.http.ResponseEntity;
-
-@RestControllerAdvice
 public class ExceptionHandlerController {
-    
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ExceptionDTO> threatDuplicateEntry(ConstraintViolationException exception) {
-        ExceptionDTO exceptionDto = new ExceptionDTO("Valor já inserido no banco de dados.", "400");
-        return ResponseEntity.badRequest().body(exceptionDto);
+
+    @ServerExceptionMapper(NotFoundException.class)
+    public RestResponse<Object> threatNotFound404(NotFoundException exception) {
+        Response.Status respStatus = Response.Status.NOT_FOUND;
+        ExceptionDTO e = new ExceptionDTO(exception.getMessage(), respStatus.getStatusCode());
+        return RestResponse.status(respStatus, e);
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Object> threatNotFound404(EntityNotFoundException exception) {
-        return ResponseEntity.notFound().build();
+    @ServerExceptionMapper(DatabaseException.class)
+    public RestResponse<Object> threatDataBaseError(DatabaseException exception) {
+        Response.Status respStatus = Response.Status.BAD_REQUEST;
+        ExceptionDTO e = new ExceptionDTO(exception.getMessage(), respStatus.getStatusCode());
+        return RestResponse.status(respStatus, e);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> threatNotFound404(Exception exception) {
-        ExceptionDTO exceptionDto = new ExceptionDTO(exception.getMessage(), "500");
-        return ResponseEntity.internalServerError().body(exceptionDto);
-    }
-    
-    @ExceptionHandler(ServiceException.class)
-    public ResponseEntity<Object> threatNotFound404(ServiceException exception) {
-        ExceptionDTO exceptionDto = new ExceptionDTO(exception.getMessage(), "500");
-        return ResponseEntity.internalServerError().body(exceptionDto);
-    }
-    
+    // @ServerExceptionMapper(Exception.class)
+    // public RestResponse<Object> threatStandardError(Exception exception) {
+    //     Response.Status respStatus = Response.Status.INTERNAL_SERVER_ERROR;
+    //     ExceptionDTO e = new ExceptionDTO(exception.getMessage(), respStatus.getStatusCode());
+    //     return RestResponse.status(respStatus, e);
+    // }
 }

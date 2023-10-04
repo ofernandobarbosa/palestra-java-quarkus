@@ -4,40 +4,24 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Table(name = "disciplina")
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
-public class Disciplina extends PanacheEntityBase{
-
-    @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Disciplina extends PanacheEntity{
 
     @Column(length = 255, unique = true, nullable = false)
-    private String nome;
+    public String nome;
 
     @Column(nullable = false)
-    private Integer semestre;
+    public Long semestre;
 
     @OneToMany(mappedBy = "disciplina")
     @JsonIgnoreProperties("alunos")
-    private List<Turma> turmas;
+    public List<Turma> turmas;
 
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import br.edu.ifrs.palestra.dto.DisciplinaDTO;
 import br.edu.ifrs.palestra.model.Disciplina;
 import br.edu.ifrs.palestra.repository.DisciplinaRepository;
+import br.edu.ifrs.palestra.service.exceptions.DatabaseException;
+import br.edu.ifrs.palestra.service.exceptions.NotFoundException;
 import br.edu.ifrs.palestra.service.interfaces.DisciplinaService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -21,33 +23,39 @@ public class DisciplinaServiceImpl implements DisciplinaService {
     }
 
     @Override
-    public Disciplina getById(int id) {
+    public Disciplina getById(Long id) {
         return disciplinaRepository.findByIdOptional((long) id)
-                .orElseThrow(() -> new ServiceException("Disciplina não encontrada no banco de dados."));
+                .orElseThrow(() -> new NotFoundException("Disciplina não encontrada no banco de dados.", id));
     }
 
     @Override
     public Disciplina save(DisciplinaDTO disciplinaDto) {
         Disciplina disciplina = new Disciplina();
-        disciplina.setNome(disciplinaDto.nome());
-        disciplina.setSemestre(disciplinaDto.semestre());
+        disciplina.nome = disciplinaDto.nome();
+        disciplina.semestre = disciplinaDto.semestre();
         return disciplinaRepository.saveAndReturn(disciplina);
     }
 
     @Override
-    public Disciplina update(int id, DisciplinaDTO disciplinaDto) {
+    public Disciplina update(Long id, DisciplinaDTO disciplinaDto) {
         Disciplina disciplina = getById(id);
-        disciplina.setNome(disciplinaDto.nome());
-        disciplina.setSemestre(disciplinaDto.semestre());
+        disciplina.nome = disciplinaDto.nome();
+        disciplina.semestre = disciplinaDto.semestre();
         return disciplinaRepository.saveAndReturn(disciplina);
     }
 
     @Override
-    public boolean delete(int id) {
-        if(disciplinaRepository.findByIdOptional((long) id).isPresent()){
-            return disciplinaRepository.deleteById((long) id);
+    public boolean delete(Long id) {
+        try {
+            if (disciplinaRepository.findByIdOptional((long) id).isPresent()) {
+                return disciplinaRepository.deleteById((long) id);
+            }
+            return false;
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+            throw new DatabaseException(e.getMessage());
         }
-        return false;
+
     }
 
 }

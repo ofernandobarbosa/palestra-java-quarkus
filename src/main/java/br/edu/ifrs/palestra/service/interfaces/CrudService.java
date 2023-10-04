@@ -5,11 +5,11 @@ import java.util.List;
 public interface CrudService<T, DTO>{
     List<T> getAll();
 
-    T getById(int id);
+    T getById(Long id);
 
     T save(DTO dto);
 
-    T update(int id, DTO dto);
+    T update(Long id, DTO dto);
 
-    boolean delete(int id);
+    boolean delete(Long id);
 }

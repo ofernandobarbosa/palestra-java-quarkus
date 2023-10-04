@@ -26,7 +26,7 @@ public class DisciplinaController {
 
     @GET
     @Path("/{id}")
-    public Disciplina getById(@PathParam("id") int id) {
+    public Disciplina getById(@PathParam("id") Long id) {
         return disciplinaService.getById(id);
     }
 
@@ -37,13 +37,13 @@ public class DisciplinaController {
 
     @PUT
     @Path("/{id}")
-    public Disciplina update(@PathParam("id") int id, DisciplinaDTO disciplinaDto) {
+    public Disciplina update(@PathParam("id") Long id, DisciplinaDTO disciplinaDto) {
         return disciplinaService.update(id, disciplinaDto);
     }
     
     @DELETE
     @Path("/{id}")
-    public Boolean delete(@PathParam("id") int id) {
+    public Boolean delete(@PathParam("id") Long id) {
         return disciplinaService.delete(id);
     }
     

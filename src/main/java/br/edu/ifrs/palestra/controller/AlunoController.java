@@ -26,7 +26,7 @@ public class AlunoController {
 
     @GET
     @Path("/{id}")
-    public Aluno getById(@PathParam("id") int id) {
+    public Aluno getById(@PathParam("id") Long id) {
         return alunoService.getById(id);
     }
 
@@ -39,12 +39,13 @@ public class AlunoController {
     @POST
     @Path("/{id}")
     @Transactional
-    public Aluno update(@PathParam("id") int id, AlunoDTO alunoDto) {
+    public Aluno update(@PathParam("id") Long id, AlunoDTO alunoDto) {
         return alunoService.update(id, alunoDto);
     }
 
     @DELETE
-    public Boolean delete(@PathParam("id") int id) {
+    @Path("/{id}")
+    public Boolean delete(@PathParam("id") Long id) {
         return alunoService.delete(id);
     }
 }
