@@ -28,7 +28,7 @@ public class TurmaServiceImpl implements TurmaService {
 
     @Override
     public List<Turma> getAll() {
-        return turmaRepository.findAll().list();
+        return turmaRepository.listAll();
     }
 
     @Override

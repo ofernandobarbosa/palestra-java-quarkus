@@ -19,7 +19,7 @@ public class DisciplinaServiceImpl implements DisciplinaService {
 
     @Override
     public List<Disciplina> getAll() {
-        return disciplinaRepository.findAll().list();
+        return disciplinaRepository.listAll();
     }
 
     @Override
