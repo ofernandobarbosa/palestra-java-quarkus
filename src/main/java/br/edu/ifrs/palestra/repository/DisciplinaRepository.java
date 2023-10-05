@@ -7,9 +7,4 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class DisciplinaRepository implements PanacheRepository<Disciplina> {
 
-        public Disciplina saveAndReturn(Disciplina disciplina) {
-        persist(disciplina);
-        getEntityManager().flush();
-        return disciplina;
-    }
 }

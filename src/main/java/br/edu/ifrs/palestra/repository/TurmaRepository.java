@@ -7,9 +7,4 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class TurmaRepository implements PanacheRepository<Turma> {
 
-    public Turma saveAndReturn(Turma turma) {
-        persist(turma);
-        getEntityManager().flush();
-        return turma;
-    }
 }

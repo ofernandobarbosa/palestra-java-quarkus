@@ -48,13 +48,16 @@ public class AlunoServiceImpl implements AlunoService {
 
         aluno.matricula = matricula;
         aluno.email = generateEmail(alunoDto.nome(), alunoDto.sobrenome());
-        return alunoRepository.saveAndReturn(aluno);
+        
+        alunoRepository.persist(aluno);
+        return aluno;
     }
 
     // Sobrecarga do método de salvar aluno.
     @Override
     public Aluno save(Aluno aluno) {
-        return alunoRepository.saveAndReturn(aluno);
+        alunoRepository.persist(aluno);
+        return aluno;
     }
 
     @Override
@@ -64,7 +67,8 @@ public class AlunoServiceImpl implements AlunoService {
             aluno.nome = alunoDto.nome();
             aluno.sobrenome = alunoDto.sobrenome();
             aluno.email = generateEmail(alunoDto.nome(), alunoDto.sobrenome());
-            return alunoRepository.saveAndReturn(aluno);
+            alunoRepository.persist(aluno);
+            return aluno;
         } catch (EntityNotFoundException e) {
             throw new NotFoundException(id);
         }

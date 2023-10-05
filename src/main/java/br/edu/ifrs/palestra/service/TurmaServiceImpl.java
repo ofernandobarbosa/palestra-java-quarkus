@@ -46,7 +46,8 @@ public class TurmaServiceImpl implements TurmaService {
         turma.nome = turmaDto.nome();
         turma.disciplina = disciplina;
 
-        return turmaRepository.saveAndReturn(turma);
+        turmaRepository.persist(turma);
+        return turma;
 
     }
 
@@ -58,7 +59,8 @@ public class TurmaServiceImpl implements TurmaService {
         turma.nome = turmaDto.nome();
         turma.disciplina = disciplina;
 
-        return turmaRepository.saveAndReturn(turma);
+        turmaRepository.persist(turma);
+        return turma;
     }
 
     @Override
@@ -79,7 +81,7 @@ public class TurmaServiceImpl implements TurmaService {
 
         turma.alunos.add(aluno);
         aluno.turmas.add(turma);
-        turmaRepository.saveAndReturn(turma);
+        turmaRepository.persist(turma);
         alunoService.save(aluno);
         return turma;
     }
@@ -94,7 +96,7 @@ public class TurmaServiceImpl implements TurmaService {
 
         turma.alunos.remove(aluno);
         aluno.turmas.remove(turma);
-        turmaRepository.saveAndReturn(turma);
+        turmaRepository.persist(turma);
         alunoService.save(aluno);
         return turma;
     }

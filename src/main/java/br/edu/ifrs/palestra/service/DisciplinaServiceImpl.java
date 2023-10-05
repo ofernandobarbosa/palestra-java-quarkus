@@ -33,7 +33,8 @@ public class DisciplinaServiceImpl implements DisciplinaService {
         Disciplina disciplina = new Disciplina();
         disciplina.nome = disciplinaDto.nome();
         disciplina.semestre = disciplinaDto.semestre();
-        return disciplinaRepository.saveAndReturn(disciplina);
+        disciplinaRepository.persist(disciplina);
+        return disciplina;
     }
 
     @Override
@@ -41,7 +42,8 @@ public class DisciplinaServiceImpl implements DisciplinaService {
         Disciplina disciplina = getById(id);
         disciplina.nome = disciplinaDto.nome();
         disciplina.semestre = disciplinaDto.semestre();
-        return disciplinaRepository.saveAndReturn(disciplina);
+        disciplinaRepository.persist(disciplina);
+        return disciplina;
     }
 
     @Override

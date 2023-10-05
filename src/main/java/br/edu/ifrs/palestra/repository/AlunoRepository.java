@@ -15,10 +15,4 @@ public class AlunoRepository implements PanacheRepository<Aluno> {
         Aluno aluno = find("matricula", matricula).firstResult();
         return aluno != null;
     };
-
-    public Aluno saveAndReturn(Aluno aluno) {
-        persist(aluno);
-        getEntityManager().flush();
-        return aluno;
-    }
 }
